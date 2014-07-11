@@ -1,0 +1,5 @@
+[ "BingWallpaper-2014-07-10.jpg"
+, "BingWallpaper-2014-07-09.jpg"
+, "BingWallpaper-2014-07-07.jpg"
+, "BingWallpaper-2014-07-06.jpg"
+, "BingWallpaper-2014-07-04.jpg"]
