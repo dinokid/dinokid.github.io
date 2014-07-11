@@ -90,7 +90,7 @@
                 if (typeof (Storage) !== "undefined") {
                     if (localStorage.imageIndex) {
                         imageIndex = localStorage.imageIndex;
-                        if (imageIndex == NaN)
+                        if (isNaN(imageIndex))
                             imageIndex = 0;
                         document.getElementById("newsImage").src = newsImageList[imageIndex];
                         var s = $('.imageChanger');
