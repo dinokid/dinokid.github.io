@@ -19,7 +19,7 @@
     <script type="text/javascript" src="jquery-1.11.1.js"></script>
 
 </head>
-    <body onload="getReview()" onunload="leavingPage()">
+    <body onload="getReview()" onunload="leavingPage()" style="font: Times New Roman;">
         <div style="margin-top: 11%"></div>
         <p style="text-align: center; font-size: 70pt;">N<br/>W<span style="color: white;">XX</span>E<br/>S</p>
         <p style="text-align: center; font-size: 20pt;">News</p>
@@ -90,6 +90,8 @@
                 if (typeof (Storage) !== "undefined") {
                     if (localStorage.imageIndex) {
                         imageIndex = localStorage.imageIndex;
+                        if (imageIndex == NaN)
+                            imageIndex = 0;
                         document.getElementById("newsImage").src = newsImageList[imageIndex];
                         var s = $('.imageChanger');
                         for (var i = 0; i < s.length; i++) {
