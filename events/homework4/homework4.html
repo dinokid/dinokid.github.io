@@ -1,91 +1,246 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
-<HTML>
-    <HEAD>
-        <TITLE>Dino Huang's</TITLE>
-        <style>
-            body {
-                background-color: rgb(217, 238, 231);
-            }
-             .bluePrintStyle {
-                 margin-left: 15%;
-                 margin-right: 15%;
-             }
-            .upperBackgroundStyle {
-                background-image: url(../../1366blue.gif);
-                background-repeat: no-repeat;
-            }
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>news</title>
+    <style>
+        .imageChanger {
+            position: absolute; 
+            top: 100px; 
+            font-size: 20px;
+            color: black;
+            background-color: rgba(100, 100, 100, 0);
+            opacity: 0;
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+    </style>
+    <script type="text/javascript" src="jquery-1.11.1.js"></script>
 
-            .dhTagStyle {
-                float: left;
-            }
-            .dhTextStyle {
-                float: left;
-                margin-left: 5%;
-                color: white;
-                font-size: 35pt;
-            }
-            .clearFixStyle {
-                clear: both;
-                height: 0;
-            }
-            .navigationBoardStyle {
-                float: left;
-                background-color: rgba(94, 138, 150, 0.6);
-            }
-            .listItemStyle {
-                float: left;
-            }
-        </style>
-    </HEAD>
+</head>
+    <body onload="getReview()" onunload="leavingPage()" style="font: Times New Roman;">
+        <div style="margin-top: 11%"></div>
+        <p style="text-align: center; font-size: 70pt;">N<br/>W<span style="color: white;">XX</span>E<br/>S</p>
+        <p style="text-align: center; font-size: 20pt;">News</p>
+        <p style="text-align: center; font-size: 15pt;"><cite>browsing the world</cite>
+        <div id="newsImageDiv" style="margin-left: 10%; margin-right: 10%;">
+            <p style="background-color: black; width: 100%; height: 2px;">&nbsp;</p>
+            <img id="newsImage" src="1366back2.gif" onload="getNewsImage(event)" style=" width: 100%"/>
+            <p class="imageChanger" style="left: 10%" onmouseover="mouseOverImageChanger()" onmouseout="mouseOutImageChanger()" onclick="clickImageChanger(1)"><b>&nbsp;&nbsp;&lt;&nbsp;&nbsp;</b></p>
+            <p class="imageChanger" style="right: 10%" onmouseover="mouseOverImageChanger()" onmouseout="mouseOutImageChanger()" onclick="clickImageChanger(2)"><b>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</b></p>
+        </div>
+        <div style="clear: both;"></div>
     
-    <BODY >
-        <div id="upperBackground" class="upperBackgroundStyle">
-            <div id="upperBluePrint" class="bluePrintStyle">
-                <div style="padding-top: 35px"></div>
-                <div id="dhTag" class="dhTagStyle">
-                    <a href="index.html"><img src="../../dh.gif" style ="width: 30%; float: left;"/></a>
-                    <h1 class="dhTextStyle" ><b>D&nbsp;i&nbsp;n&nbsp;o&nbsp;
-                        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        H&nbsp;u&nbsp;a&nbsp;n&nbsp;g&nbsp;'s</b></h1>
-                </div>
-                <div class="clearFixStyle"></div>
-                <div style="padding-top: 25px"></div>
-                <table id="navigationBoard" class="navigationBoardStyle" style="width: 100%;">
-                    <tr style="color: white; float: left; padding-left: 10px; font-size: 18px">
-                        <td><a href="index.html" style="text-decoration: none; color: white;"><b>Events&nbsp;&nbsp;&nbsp;&nbsp;</b></a></td>
-                        <td><a href="about.html" style="text-decoration: none; color: white;"><b>About Me&nbsp;&nbsp;&nbsp;&nbsp;</b></a></td>
-                        <td><a href="homework.html" style="text-decoration: none; color: white;"><b>Homework&nbsp;&nbsp;&nbsp;&nbsp;</b></a></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" style="background-color: rgb(230, 230, 230);">
-                            <img alt="featuring event"id="eventPicture" src="homework4.gif" style="width: 70%; float: left" />
-                            <div style="float: left; margin-left: 10px; width: 25%;">
-                                <h1 style="color: rgb(50, 50, 50)"> &gt; Homework 4</h1>
-                                <h4 style="background-color: rgb(200, 200, 100); width: 100%">
-                                    <br/><br/><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Project Photo Display.</span>
-                                    <br/><br/><br/><br/><br/><br/><br/>
-                                </h4>
-                            </div>  
-                        </td>
-                    </tr>
-                </table>
-                <div class="clearFixStyle"></div>
-                <div id="eventIntrodution">
-                    <h1>&nbsp;&nbsp;...by Dino Huang</h1>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;2014/07/01</p>
-                </div>
+        <div id="reviewDiv" style="margin-left: 10%; margin-right: 10%;">
+            <hr/>
+            <h2 id="reviewHead" style="text-align: center; width: 100%; background-color: grey;" onclick="showComment()">Comment <b>v</b></h2>
+            <p id="commentNumber" style="float: right; display: none;"></p>
+            <div style="clear: both;">
+                <p id='reviewP' style="display: none; "></p>
+                <p id="commentNumber2" style="float: right; display: none;"></p>
             </div>
         </div>
-        <!--need a line here-->
-        <div id="lowerBackground">
-            <div id="lowerBluePrint" class="bluePrintStyle">
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please Press <a href="PPD/index.html"> here</a></p>
-                <div>
-                    <p style="background-color: black;width: 100%">&nbsp;</p>
-                </div>
-            </div>
-        </div>
+        <script>
+            //everything about image start from here
+            //1. when image changer is click
+            function clickImageChanger(dir) {
+                if (dir == 1) {
+                    imageIndex += (newsImageList.length-2);
+                }
+                imageIndex %= newsImageList.length;
+                changeNewsImage();
+                clearInterval(imageInterval);
+                imageInterval=setInterval(changeNewsImage, 5000);
+            }
+            //2. when mouse move into image changer
+            function mouseOverImageChanger() {
+                var s = $('.imageChanger');
+                for (var i = 0; i < s.length; i++) {
+                    s[i].style.backgroundColor = "rgba(100, 100, 100, 0.8)";
+                    s[i].style.opacity = 1;
+                }
+            }
+            //3. when mouse move out of image changer
+            function mouseOutImageChanger() {
+                var s = $('.imageChanger');
+                for (var i = 0; i < s.length; i++) {
+                    s[i].style.backgroundColor = "rgba(100, 100, 100, 0)";
+                    s[i].style.opacity = 0.3;
+                }
+            }
+            //4. request for images' link
+            var newsImageList, imageInterval;
+            function getNewsImage(event) {
+                event.stopPropagation();
+                if (newsImageList != undefined)
+                    return;
+                var xhp = loadXMLDoc("newsImageList.txt");
+                xhp.onreadystatechange = function() {
+                    if (xhp.readyState == 4 && xhp.status == 200) {
+                        newsImageList = xhp.responseText;
+                        newsImageList = JSON.parse(newsImageList);
+                        initialingImage();
+                        imageInterval = setInterval(changeNewsImage, 5000);
+                    }
+                };
+            }
+            //5. use local storage to show you the last picture you watched
+            function initialingImage() {
+                if (typeof (Storage) !== "undefined") {
+                    if (localStorage.imageIndex) {
+                        imageIndex = localStorage.imageIndex;
+                        if (imageIndex == NaN)
+                            imageIndex = 0;
+                        document.getElementById("newsImage").src = newsImageList[imageIndex];
+                        var s = $('.imageChanger');
+                        for (var i = 0; i < s.length; i++) {
+                            s[i].style.top = document.getElementById("newsImage").height * 1.5 + "px";
+                            //s[i].style.height = $('#newsImage')[0].height + "px";
+                            s[i].style.paddingTop = "50px";//$('#newsImage')[0].height / 2 - 30 + "px";
+                            s[i].style.paddingBottom = "50px";//$('#newsImage')[0].height / 2 - 30 + "px";
+                            s[i].style.marginLeft = "10px";
+                            s[i].style.marginRight = "10px";
+                            s[i].style.opacity = 0.3;
+                        }
+                    
+                    } else {
+                        localStorage.imageIndex = 1;
+                        imageIndex = 1;
+                    }
+                } else {
+                    imageIndex = 1;
+                }
+            }
+            //6. when it's needed to change picture
+            var imageIndex;
+            function changeNewsImage() {
+                var img = $('#newsImage');
+                img.fadeOut(); 
+                setTimeout(function () {
+                    document.getElementById("newsImage").src = newsImageList[imageIndex];
+                }, 200);
+                img.fadeIn();
+                //document.getElementById("newsImage").src = newsImageList[imageIndex];
+            
+                imageIndex++;
+                imageIndex %= newsImageList.length;
+                var s = $('.imageChanger');
+                for (var i = 0; i < s.length; i++) {
+                    s[i].style.top = document.getElementById("newsImage").height * 1.5 + "px";
+                    //s[i].style.height = $('#newsImage')[0].height + "px";
+                    s[i].style.paddingTop = "60px";//$('#newsImage')[0].height / 2 - 30 + "px";
+                    s[i].style.paddingBottom = "60px";//$('#newsImage')[0].height / 2 - 30 + "px";
+                    s[i].style.marginLeft = "10px";
+                    s[i].style.marginRight = "10px";
+                    s[i].style.opacity = 0.3;
+                }
 
-    </BODY>    
-</HTML>
+
+            }
+            //end
+            //everything about review start from here
+            //1. request for review
+            var reviewListNumber;
+            function getReview() {
+                if (reviewListNumber != undefined)
+                    return;
+            
+                var xhp = loadXMLDoc("feedBackNumber.txt");
+                xhp.onreadystatechange = function() {
+                    if (xhp.readyState == 4 && xhp.status == 200) {
+                        reviewListNumber = xhp.responseText;
+                        reviewListNumber = JSON.parse(reviewListNumber);
+                        changePage(1);
+                    }
+                };
+            }
+            //2. when user change review pages
+            function changePage(pageNumber) {
+                var di = document.getElementById("reviewP");
+                var nu = document.getElementById("commentNumber");
+                var nu2 = document.getElementById("commentNumber2");
+                var request = "feedBack" + pageNumber + ".txt";
+                var reviewList;
+                var newRiview = "";
+                var xhp = loadXMLDoc(request);
+                xhp.onreadystatechange = function () {
+                    if (xhp.readyState == 4 && xhp.status == 200) {
+                        reviewList = xhp.responseText;
+                        reviewList = JSON.parse(reviewList);
+                        
+                        for (var i = 0; i < reviewList.length; i++) {
+                            var r = (Math.random() * 1000) % 200, g = (Math.random() * 1000) % 200, b = (Math.random() * 1000) % 200;
+                            r = Math.round(r);
+                            g = Math.round(g);
+                            b = Math.round(b);
+                            newRiview += "<h3 style='color: rgb(" + r + ", " + g + "," + b + ");'>" + reviewList[i].author
+                                + "<span style='color: black;'> says:</span>" + "</h3>"
+                                + reviewList[i].content + "<hr><br/>";
+                        }
+                        di.innerHTML = newRiview;
+
+                        var pages = "Page ";
+                        for (i = 1; i <= reviewListNumber; i++) {
+                            if (i == pageNumber) {
+                                pages += "<span style='color: black; margin-left: 2px; margin-right: 2px;' onclick='none'>" + "<b>" + i + "</b>" + " </span>";
+                            } else {
+                                pages += "<span style='color: blue; margin-left: 2px; margin-right: 2px;' onclick='changePage(" + i + ")'>" + i + " </span>";
+                            }
+
+                        }
+                        nu.innerHTML = pages;
+                        nu2.innerHTML = pages;
+                    }
+                };
+            }
+            //3. when the common button is click
+            var reviewShowed = 0;
+            function showComment() {
+                if (reviewShowed == 0) {
+                    $('#reviewHead')[0].innerHTML = "Comment <b>^</b>";
+                    $('#commentNumber')[0].style.display = "block";
+                    $('#commentNumber2')[0].style.display = "block";
+                    reviewShowed = 1;
+                } else {
+                    $('#reviewHead')[0].innerHTML = "Comment <b>v</b>";
+                    $('#commentNumber')[0].style.display = "none";
+                    $('#commentNumber2')[0].style.display = "none";
+                    reviewShowed = 0;
+                }
+            
+                $('#reviewP').slideToggle("slow");
+            
+            }
+            //end
+            //other
+            //1. when page is unloaded, update local storage
+            function leavingPage() {
+                if (typeof(Storage) !== "undefined") {
+                    if (localStorage.imageIndex) {
+                        localStorage.imageIndex = imageIndex;
+                    }
+                    else {
+                        localStorage.imageIndex = imageIndex;
+                    }
+                }
+                else {
+                }
+            }
+            //2. function for creating XMLHttpRequest
+            function loadXMLDoc(url) {
+
+                var xmlhttp;
+                if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                } else { // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+                return xmlhttp;
+
+            }
+        </script>
+    </body>
+</html>
